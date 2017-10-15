@@ -1,0 +1,58 @@
+#Description :
+# It takes 10 to 15 mins to train the Network... to see results faster than that reduce number of iterations 'niter' variable but keep in mind that this will decrease
+the accuracy : )
+
+We are trying to make a 3 Layered Neural Network to predict next binary number.
+The only Dependency is Numpy library which is used for Matrix Calculations.
+This NN will contain 3 Layers + 1 input Layer
+Number of units : Layer 0 : 14   input Layer
+                  Layer 1 : 4
+                  Layer 2 : 4
+                  Layer 3 : 14   output Layer
+'m' : number of training Examples.
+
+All parameters for a layer have been numbered by layer number. For example weights for Layer 1 are 'w1', output for Layer 1 is 'a1'.
+Thus input is 'a0' or 'X'. Ground Truth or the correct output is Y. Predicated Output will be a3.
+We will use Gradient Descent Algorithm to minimize our objective or Cost Function J(w1,b1,w2,b2,w3,b3) = 1/m * L(Y,a3)
+Where L(Y,a3) is Loss function or error function : L(y,a3) = -y*log(a3) - (1-y)*log(1-a3).
+The activation function is same for all Layers : sigmoid funtion(x) = 1/(1+exp(-x))
+Dervative of sigmoid Function = sg'(x) = sg(x)*(1-sg(x)).
+Dimensions of all weights matrixes wil 4x4 and 'b' matrixes will be '4x1', except Layer 1 and Output matrices. Output will be (14xm).
+
+#Equations :
+
+-For Forward Propogation :
+z1 = w1*X + b1                                                     #Layer 1
+a1 = sigmoid(z1)
+
+z2 = w2*a1 + b2                                                    #layer 2
+a2 = sigmoid(z2)
+
+z3 = w3*a2 + b3                                                    #Layer 3 / Output Layer
+a3 = sigmoid(z3)
+
+-Error : sum (Y-a3) for all examples divide by 'm'
+
+-For Backward Propogation : (Finding derivatives)
+dz3 = a3 - Y                                                                        #layer 3
+dw3 = 1/m*( dz3*(a2)' )
+db3 = (1/m)*dz3.sum(over all examples)
+
+dz2 = (w3)' * dz3  (*) sigmoid'(z2)    # (*) -> Element wise multiplication          #Layer 2
+dw2 = 1/m*( dz2*(a1)' )
+db2 = (1/m)*dz2.sum(over all examples)
+
+dz1 = (w2)' * dz2  (*) sigmoid'(z1)                                                 #layer 1
+dw1 = 1/m*( dz1*(X)' )
+db1 = (1/m)*dz1.sum(over all examples)
+
+Now applying Gradient Descent :
+
+w3 = w3 - alpha * dw3                                                       #Layer 3
+b3 = b3 - alpha * db3
+
+w2 = w2 - alpha * dw2                                                       #layer 2
+b2 = b2 - alpha * db2
+
+w1 = w1 - alpha * dw1                                                       #Layer 1
+b1 = b1 - alpha * db1
