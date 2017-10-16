@@ -95,18 +95,16 @@ for iter in xrange(niter):
 
 
 # Generating Test Case with x representing 10 in binary .
-X = np.array([i for i in range(10, 11)])  # Generating binary representaions of all numbers from 0 - 41
+X = np.array([10]) 
 X = (((X[:, None] & (1 << np.arange(n)))) > 0).astype(int)
-for i in range(len(X)):
-    X[i] = X[i][::-1]
+X[0] = X[0][::-1]
 X = X.T
 
 # Generating Ground Truth Set where Y represents 11 in binary.
 
-Y = np.array([i for i in range(11, 12)])
+Y = np.array([11])
 Y = (((Y[:, None] & (1 << np.arange(n)))) > 0).astype(int)
-for i in range(len(Y)):
-    Y[i] = Y[i][::-1]
+Y[0] = Y[0][::-1]
 Y = Y.T
 
 # Foraward Propogation (Predicting...)
@@ -120,8 +118,10 @@ z3 = np.dot(w3, a2) + b3
 a3 = sigmoid(z3)  # Ouptut Layer
 
 print a3
+
 a3[a3 >= 0.5] = 1  # any number >= 0.5 is 1 else 0
 a3[a3 < 0.5] = 0
+
 print 'Predicted number : ',
 for i in a3.T[0]:
     print int(i),
